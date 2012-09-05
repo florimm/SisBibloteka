@@ -1,0 +1,20 @@
+﻿@using Biblioteka.DomainModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@{
+    Html.Telerik().Grid<User>().Name("grdUsers").Columns(c=>
+    {
+        c.Bound(t => t.UserName).Title("User");
+        c.Bound(t => t.Position).Title("Position");
+        c.Bound(t => t.Library.Name).Title("Works on");
+                    })
+                    .DataBinding(c => c.Ajax().Select("Liraries", "Liraries"))
+                    .Groupable().Filterable().Pageable(t => t.PageSize(20)).Sortable().Footer(true).Render();
+    }

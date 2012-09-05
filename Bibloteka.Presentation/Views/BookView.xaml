@@ -1,0 +1,25 @@
+﻿<UserControl
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:local="clr-namespace:Biblioteka.Presentation.Views" x:Class="Biblioteka.Presentation.Views.BookView"
+mc:Ignorable="d" 
+             d:DesignHeight="308" d:DesignWidth="612" >
+
+    <Grid x:Name="LayoutRoot" DataContext="{Binding Book, Source={StaticResource Locator}}" >
+        <telerik:RadGridView telerik:StyleManager.Theme="Metro" x:Name="booksList" Margin="4" AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserInsertRows="False" IsReadOnly="True" ShowColumnFooters="False" ItemsSource="{Binding Books}" IsBusy="{Binding Status.Busy, Mode=TwoWay}" SelectedItem="{Binding selected, Mode=TwoWay}">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewDataColumn Header="Title" DataMemberBinding="{Binding Title}"  Width="*"/>
+                <telerik:GridViewDataColumn Header="Edition" Width="*" DataMemberBinding="{Binding Edition}"/>
+                <telerik:GridViewDataColumn Header="Author"  DataMemberBinding="{Binding Author.Name}" Width="*"/>
+                <telerik:GridViewDataColumn Header="Publication date"  DataMemberBinding="{Binding PublicationDate}" Width="*"/>
+                <telerik:GridViewDataColumn Header="ISBN10"  DataMemberBinding="{Binding ISBN10}" Width="*"/>
+                <telerik:GridViewDataColumn Header="ISBN13"  DataMemberBinding="{Binding ISBN13}" Width="*"/>
+            </telerik:RadGridView.Columns>
+        </telerik:RadGridView>
+        <local:BookCreatEditView OkClick="OkClick" CancelClick="CancelClick" x:Name="editControl" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Height="400" Width="500" Visibility="Collapsed" DataContext="{Binding selected}" Opacity="0.9" />
+    </Grid>
+
+</UserControl>
+

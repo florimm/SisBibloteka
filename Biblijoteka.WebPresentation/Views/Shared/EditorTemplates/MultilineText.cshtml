@@ -1,0 +1,21 @@
+﻿@model string
+@using Corporate.Presentation.MVC.HtmlHelpers
+@using Utilities
+@{
+    var enabled = true;
+    var propName = ViewData.ModelMetadata.PropertyName;
+    if (ViewData.ModelMetadata.AdditionalValues.ContainsKey("requiredRole"))
+    {
+        var role = (string)ViewData.ModelMetadata.AdditionalValues["requiredRole"];
+        var enablerole = (bool)ViewData.ModelMetadata.AdditionalValues["enableForRole"];
+        enabled = Context.User.IsInRole(role.Split(',')) && enablerole;
+    } 
+    if (enabled)
+    {
+        @Html.TextArea("", ViewData.TemplateInfo.FormattedModelValue.ToString(), 0, 0, new {style = "width: 95%; height 95%;" })
+    }
+    else
+    {
+        <span>@ViewData.TemplateInfo.FormattedModelValue.ToString()</span>
+    }
+}

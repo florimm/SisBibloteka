@@ -1,0 +1,60 @@
+﻿@using Biblioteka.WebPresentation.HtmlHelpers
+@model Biblioteka.DomainModel.Book
+@functions{
+    private static bool ShouldShow(ModelMetadata metadata)
+    {
+        return metadata.ShowForEdit
+        && !metadata.IsComplexType;
+    }
+}
+@{
+    if (ViewData.TemplateInfo.TemplateDepth > 1)
+    {
+        @(Model == null ? ViewData.ModelMetadata.NullDisplayText : ViewData.ModelMetadata.SimpleDisplayText)
+    }
+    else
+    {
+    <div class="span12">
+        @foreach (var prop in ViewData.ModelMetadata.Properties.OrderBy(t => t.Order).Where(ShouldShow))
+        {
+            if (prop.HideSurroundingHtml)
+            {
+            <div class="span12">
+                @Html.Editor(prop.PropertyName)
+            </div>
+            }
+            else
+            {
+                if (prop.IsComplexType)
+                {
+            <div class="span12">
+                @Html.Editor(prop.PropertyName)
+            </div>
+                }
+                else
+                {
+                    string dependAttr = prop.AdditionalValues.Keys.Contains("DependantField") ? "Yes" : "";
+            <div class="span12" @(!string.IsNullOrWhiteSpace(dependAttr) ? "id=pnl" + prop.PropertyName + " style=display:none" : "")>
+                <div class="span6">
+                    @if (!String.IsNullOrEmpty(Html.Label(prop.PropertyName).ToHtmlString()))
+                    {                                
+                        @Html.Label(prop.PropertyName)                               
+                    }
+                </div>
+                <div class="span6">
+                    @Html.Editor(prop.PropertyName)
+                    @Html.ValidationMessage(prop.PropertyName)
+                </div>
+            </div>
+                }
+            }
+        }
+    </div>
+
+    <div class="span24">
+        @Html.Raw(Html.SubmitButton("Save"))
+        @Html.ActionLink("Go back", "Index", "Book");
+    </div>
+
+    }
+}

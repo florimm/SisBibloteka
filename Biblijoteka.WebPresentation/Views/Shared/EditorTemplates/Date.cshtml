@@ -1,0 +1,41 @@
+﻿@model DateTime?
+@using Corporate.Presentation.MVC.HtmlHelpers
+@using Utilities
+@{
+    var enabled = true;
+    string operation = null;
+    string operand = null;
+    
+    var propName = ViewData.ModelMetadata.PropertyName;
+    if (ViewData.ModelMetadata.AdditionalValues.ContainsKey("requiredRole"))
+    {
+        var role = (string)ViewData.ModelMetadata.AdditionalValues["requiredRole"];
+        var enablerole = (bool)ViewData.ModelMetadata.AdditionalValues["enableForRole"];
+        enabled = Context.User.IsInRole(role.Split(',')) && enablerole;
+    }
+    if (ViewData.ModelMetadata.AdditionalValues.ContainsKey("Operation"))
+    {
+        operation = (ViewData.ModelMetadata.AdditionalValues["Operation"]).ToString();
+        operand = (ViewData.ModelMetadata.AdditionalValues["Operand"]).ToString();
+            if (enabled)
+            {
+               @Html.Telerik().DatePicker().Name(ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty)).HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper", data_operation = operation, data_operand = operand }).Value(Model > DateTime.MinValue ? Model : DateTime.Today)
+            }
+            else
+            {
+        <span>@(Model.HasValue && Model > new DateTime(1900, 01, 01) ? Model.GetValueOrDefault(DateTime.Today).ToShortDateString() : "Not set")</span>
+            }
+    }
+    else
+    {
+        if (enabled)
+        {
+            //.HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" })
+            @Html.Telerik().DatePicker().Name(ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty)).HtmlAttributes(new { id = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty) + "_wrapper" }).Value(Model > DateTime.MinValue ? Model : DateTime.Today)
+        }
+        else
+        {
+            <span>@(Model.HasValue && Model > new DateTime(1900, 01, 01) ? Model.GetValueOrDefault(DateTime.Today).ToShortDateString() : "Not set")</span>
+        }
+    }
+}

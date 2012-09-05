@@ -1,0 +1,76 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Create";
+}
+<h2>Create</h2>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Library</legend>
+
+        <div class="editor-label">
+            Book
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("books", (IEnumerable<SelectListItem>)ViewBag.Books, "Please Select", null)
+        </div>
+        <div class="editor-label">
+            Library
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("Libraries", (IEnumerable<SelectListItem>)ViewBag.Libraries, "Please Select", null)
+        </div>
+        <div class="editor-label">
+            Copys
+        </div>
+        <div class="editor-field">
+            @Html.TextBox("NrOfCopys")
+        </div>
+        <p>
+            <input type="button" id="add" value="Add" />
+        </p>
+    </fieldset>
+    <table class="table">
+        
+    </table>
+}
+
+@section scripts
+{
+    @Html.Telerik().ScriptRegistrar().Scripts(c=> c.Add("~/Scripts/underscore.min.js").Add("~/Scripts/backbone.min.js"))
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            var distro = Backbone.Model.extend({});
+            
+            var distros = Backbone.Collection.extend({
+                model: distro,
+                url: 'Data/DistributionAPI/Distributions'
+            });
+            
+            var MainView = Backbone.View.extend({
+                el: 'body',
+                events: {
+                    "click #add": "addDistro"
+                },
+                addOne: function (data) {
+                    $('#ls').append(data.get('book'));
+                },
+                render: function () {
+                    $('#ls').html('');
+                    Distros.each(function (d) {
+                        addOne(d);
+                    });
+                },
+                addDistro: function (e) {
+                    alert(Distros.length);
+                    alert($('#Libraries').val());
+                }
+            });
+            Distros = new distros();
+            window.App = new MainView();
+        });
+        
+    </script>
+}

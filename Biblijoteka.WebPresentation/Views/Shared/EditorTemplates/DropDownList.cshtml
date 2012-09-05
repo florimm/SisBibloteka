@@ -1,0 +1,14 @@
+﻿@model dynamic
+@{
+    var propName = ViewData.ModelMetadata.PropertyName;
+   
+    if (!propName.ToUpper().Contains("ID"))
+    {
+        propName = propName + "s";
+    }
+    else
+    {
+        propName = propName.Replace("ID", "s");
+    }
+    @Html.DropDownList("", (IEnumerable<SelectListItem>)ViewData[propName], "Please Select", null)
+}

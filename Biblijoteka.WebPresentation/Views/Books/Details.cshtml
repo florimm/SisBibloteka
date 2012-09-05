@@ -1,0 +1,50 @@
+﻿@model Biblioteka.DomainModel.Book
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Book</legend>
+
+    <div class="display-label">Title</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+
+    <div class="display-label">ISBN10</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ISBN10)
+    </div>
+
+    <div class="display-label">ISBN13</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ISBN13)
+    </div>
+
+    <div class="display-label">Edition</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Edition)
+    </div>
+
+    <div class="display-label">PublicationDate</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PublicationDate)
+    </div>
+
+    <div class="display-label">Description</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">AuthorID</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AuthorID)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
